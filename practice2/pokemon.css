@@ -16,13 +16,13 @@
 	4. 目前為止都還沒有用到 position:relative;
 	
 	5. 慘了, 更混亂了, 有table-cell, 上面就要有table
-	   但如果這兩個同時拿掉, 只有display:inline-block;  同樣可以排出目前的頁面！
+	   但如果這兩個同時拿掉, 只有display:inline-block;  同樣可以排出目前的頁面
 
 	6. 或者把 article的display:table;打開
 	   inner的display:table-cell關掉
 	   在.column把 display:inline-block; 換成 display:table-cell 也會排成table
 
-	7. 所以對照 #2 的練習, table應該是適合用來切 各種寬度的區塊, 
+	7. 所以對照 #1 的練習, table應該是適合用來切 各種寬度的區塊, 
 	   如果一樣寬, 用display:inline-block 即可
 
 */
