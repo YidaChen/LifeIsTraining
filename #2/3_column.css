@@ -1,0 +1,156 @@
+
+/*  
+	0. 最重要的, html, body 一定要調整margin height
+	1. 小技巧, 因為要讓背景是漸層結束, 但是又不想讓螢幕縮放的時候, 使得某個element的block
+	   的height:100%; 造成背景的見曾被切割, 所以把漸層的最後一個color stop設成和body的
+	   背景顏色一樣, 這樣就不會有斷層
+	2. 不過上述的斷層是無法避免的, 看drew wilson的網站也是, 不過他巧妙利用這樣的特性去分出
+	   不同的主題(article), 所以看起來不會很奇怪
+	3. table的使用
+			 display:table;
+			 	display:table-cell;
+					display:inline-block;
+	   這樣就可以製造table-row的效果, 
+	   inline-block很好用,它會自動因應browser寬度調整table-cell, 
+	   使cell可以存在browser裡面
+	4. 目前為止都還沒有用到 position:relative;
+	
+	5. 慘了, 更混亂了, 有table-cell, 上面就要有table
+	   但如果這兩個同時拿掉, 只有display:inline-block;  同樣可以排出目前的頁面！
+
+	6. 或者把 article的display:table;打開
+	   inner的display:table-cell關掉
+	   在.column把 display:inline-block; 換成 display:table-cell 也會排成table
+
+	7. 所以對照 #2 的練習, table應該是適合用來切 各種寬度的區塊, 
+	   如果一樣寬, 用display:inline-block 即可
+
+*/
+
+
+
+
+@font-face {
+  font-family: StMarie-Thin; 
+  src: url('font/st-marie/StMarie-Thin.otf'); 
+  /* 也可以用網路上提供的，例如 
+     src: url("http://www.sololearn.com/uploads/fonts/Delicious-Roman.otf");
+  */
+} 
+
+html {
+	margin: 0;
+	height: 100%;
+	/* 這一行非常重要，因為要從root element開始定議起height, 
+	後面的child的height 100%才有用, 不然就是 undifined
+	有這一行後, #site的漸層背景就可以延伸全螢幕, 而且隨著browser大小自動調整
+	參考：http://www.webhek.com/css-100-percent-height
+	*/
+
+
+}
+
+body {
+	margin: 0;
+	/*width: 100%;*/    /* 這一行看似不用, 因為有上面的 margin: 0 auto; 不確定  */
+	height: 100%;
+	/*padding: 0;*/
+	
+	font-family: "Helvetica Neue", helvetica, 'StMarie-Thin', sans-serif;
+	font-size: 14px;
+	color: #444;
+
+	background-color: #fafaff;
+	
+
+	/*border: 10px solid green;*/
+}
+
+#site {
+	height: 100%;
+	/*width: 100%;*/
+	
+	background: linear-gradient(#ffc966, #fafaff);
+	
+	/*border: 3px solid black;*/
+}
+
+
+article {
+    /*position: relative;*/
+    /*display: table;*/
+    /*vertical-align: middle;*/
+
+    height: 100%;
+    width: 100%;
+    /*padding: 0;*/
+
+    font-size: 16px;
+    text-align: center;
+    
+    /*border: 3px solid blue;*/
+}
+/* 把inner放在 article, 和 另外創一個有inner修飾的div, 對h2影響非常大！ */
+/* 如果放在article裏面，因為原本display:table, 會被覆蓋成 display:table-cell; */
+.inner {
+	/*display: table-cell;*/
+	/*vertical-align: middle;*/
+	padding: 40px 0;
+
+	/*border: 3px solid blue;*/
+}
+
+article h2 {
+	padding: 0 10px;
+	margin: 6% auto;
+
+	/*font-family: 'StMarie-Thin', sans-serif;*/
+	font-size: 50px;
+	font-weight: 400;
+	line-height: 1.2em;
+	color: #f9f9ff;
+
+	/*border: 3px solid gray;*/
+}
+
+.column {
+	display: inline-block;
+	/*display: table-cell*/
+	margin: 20px 3% 3% 3%;
+	text-align: left;
+	vertical-align: top;
+	padding: 0px 10px; 
+
+	/*border: 3px solid red;*/
+}
+
+.column h3 {
+	font-size: 22px;
+	padding: 10px 0;
+	color: #787c78;
+
+	/*border: 3px solid green;*/
+}
+
+.column ul {
+	/*margin: 0;*/
+
+	/* 下面這個 padding:0; 超重要！  會把 ul 的元素對齊左邊  */
+	padding: 0;
+
+	list-style: none;
+	/*border: 3px solid blue;*/
+
+}
+
+.column ul li {
+	margin: 10px 0;
+	color: #444;
+	font-weight: 500;
+}
+
+
+/*footer {
+	border: 5px solid yellow;
+}*/
+
