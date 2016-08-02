@@ -87,6 +87,7 @@ var infixExpress = [];
 var postfixExpress = [];
 var operators = ["+", "-", "×", "÷", "=", "AC", "DEL", "+/-"];
 var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var isThereDot = false;
 
 function IsNumber(symbol){
 	return (numbers.indexOf(symbol) != -1);
@@ -101,7 +102,10 @@ function IsOperator(symbol){
 	}
 }
 
-
+function IsNotFloatNum(symbol){
+	symbol = Number(symbol);
+	return ((symbol - Math.floor(symbol)) == 0) ;
+}
 
 /*
     幫每個按鈕加上 event handler, 處理 event: click 
@@ -137,17 +141,16 @@ function ResponseToClick(current){
 				// 這裡不能把 display[] 更新成 parsing 後的結果, 
 				// 因為 DEL 還是必須對array的entry做pop()
 				if(Number(infixExpress[0]) < 0){
-					display.shift();
+					display.shift();       // 移除開頭的 -
 				}
 				else{
-					display.unshift('-');
+					display.unshift('-');  // 在開頭加入 - 
 				}
 			}
 		}
 		else if(current === "×" || current === "+" || current === "÷"){
 			// if(previous !== "=" && IsOperator(previous) ){   
-			if(IsOperator(display[display.length-1]) && previous !== "=" 
-				&& previous !== "+/-"){ 
+			if(IsOperator(display[display.length-1])){      // 這個條件式應該可以只保留第一項, 再檢查
 				// 如果前一個是 operator, 先把前一個丟掉, 更新成最新按的
 				// 但如果前一個是 = , 就不用清除
 				display.pop();
@@ -163,19 +166,30 @@ function ResponseToClick(current){
 		}
 		else if(current === "="){
 			// 如果按 = 的時後, 結尾是 operator, 要先把它 pop() 掉
-
+			if(IsOperator(display[display.length-1])){
+				display.pop();
+			}
 			// 每按一次 = , infixExpress 就要reset一次, 有可能使用者試用 DEL 讓 display[] 清空
-			infixExpress = [];      
-			postfixExpress = [];
-
-			ParsingToInfix();
-			InfixToPostfixConversion();
+			
+			ParsingToInfix();            // 在這裏做 infixExpress = [];
+			InfixToPostfixConversion();  // 在這裏做 postfixExpress = [];
 			EvaluatingPostfix();
 		}
 	}
 	// 這裡的 condition 不能用 if( 0 <= Number(current) <= 9){ }, 為什麼？
-	if(IsNumber(current) || current === "00" || current === "."){
+	if(IsNumber(current) || current === "00"){
 		display.push(current);
+	}
+	else if(current === "." && display[display.length-1] !== "."){
+		// 要控制, 不能在同一個 digit 有兩個 .
+		// 1. 先 Parsing
+		// 2. 然後看最後一個element, 如果不是數字就加
+		// 3. 如果是 floating point, 就不能加, 如果不是就可以加
+		ParsingToInfix(); 
+		if(IsOperator(infixExpress[infixExpress.length-1]) 
+			|| IsNotFloatNum(infixExpress[infixExpress.length-1]) ){
+			display.push(current);
+		}
 	}
 	else if(current === "-"){
 		if(IsOperator(display[display.length-1]) && previous !== "=" 
@@ -194,7 +208,7 @@ function ResponseToClick(current){
 
 function ParsingToInfix(){
 	var front = 0;
-	 
+	infixExpress = []; 
 	for(var i = 0; i < display.length; i++){
 		if((operators.indexOf(display[i]) != -1) && (i != 0)){
 			// 如果第一個是 - 就不做parsing, 把 - 跟後面的 digit 放在一起
@@ -211,11 +225,12 @@ function ParsingToInfix(){
 	// 再把剩下的加入 infixExpress
 	for(var j = front; j < i; j++){
 		var str = "";
-			for(var j = front; j < i; j++){
-				str += display[j];
+		for(var j = front; j < i; j++){
+			str += display[j];
 		}
 		infixExpress.push(str);
 	}
+
 	// console.log("infixExpress conversion done.");
 	// console.log("infixExpress: "+infixExpress);
 }
@@ -313,6 +328,7 @@ var priorityOfOperators = {
 };
 
 function InfixToPostfixConversion(){
+	postfixExpress = [];      // 把 postfixExpress reset
 	var stack = new Stack();
 	for(var i = 0; i < infixExpress.length; i++){
 		if(!IsOperator(infixExpress[i])){
@@ -385,16 +401,9 @@ function EvaluatingPostfix(){
 	for(var i = 0; i < result.length; i++){
 		display.push(result[i]);
 	}
+	if(display[display.length-1] === "." ){
+		display.pop();
+	}
 }
-
-
-
-
-
-
-
-
-
-
 
 
