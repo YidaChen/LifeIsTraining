@@ -1,0 +1,72 @@
+
+* {
+	margin: 0;
+	padding: 0;
+	/*box-sizing: border-box;*/
+}
+
+body {
+	background-color: #f9f9f9;
+	font-size: 20px;
+}
+
+#calculator {
+	margin: 100px auto;
+	width: 366px;
+	height: auto;
+	/*border: 2px solid red;*/
+}
+
+.row-display {
+	padding: 20px 0 20px 20px;
+	height: 60px;
+	background-color: #c0dbff;
+}
+
+#display {
+	
+	margin: 0px 10px;
+	padding:0 10px; 
+	width: 290px;
+	height: 60px;
+	background: #444;
+
+	color: #fcfcfc;
+	text-align: right;
+	line-height: 60px;     /* 60px是這個div的高, 調整字成垂直置中 */
+	font-size: 24px;
+
+	overflow: hidden;      /* 把超過的數字忽略 */
+	word-break: break-all; /* 避免數字從中間被砍掉 */
+}
+
+.row {
+	padding: 0 0 20px 20px;
+	height: 50px;
+	background-color: #c0dbff;
+	/*border: 2px solid black;*/
+}
+
+.row span {
+	display: inline-block;
+
+	margin-left: 10px; 
+	padding: 15px 7px;
+	width: 52px;
+	height: 20px;
+
+	text-align: center;
+	background: #f4f4f4;
+
+}
+/* 為什麼不能在 .operator 裡面加入背景顏色修飾？ 
+   可以, 但是selector不能是  " .row span .operator "  
+   中間加了一個 span 就出問題
+   要用 " .row .operator "
+
+*/
+.row .operator {
+	background: #f0909b;  
+}
+
+
