@@ -113,7 +113,7 @@ var rows = document.querySelectorAll("div.row");
 for(var i = 0; i < rows.length; i++){
 	var btns = rows[i].children;
 	for(var j = 0; j < btns.length; j++){
-		btns[j].addEventListener("click", function(){
+		btns[j].addEventListener("click", function(event){
 			current = event.target.textContent;   // 把東西存到 current 裡面
 			ResponseToClick(current);
 			previous = current;                   // 記住這一次按到 btn, 避免重複按operator
