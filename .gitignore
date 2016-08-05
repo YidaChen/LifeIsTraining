@@ -10,6 +10,7 @@ output/
 # C extensions
 *.so
 .cpp
+.out
 
 # Packages
 *.egg
