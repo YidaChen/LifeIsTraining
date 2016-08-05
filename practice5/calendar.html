@@ -1,0 +1,80 @@
+<!-- 
+	功能：
+	1. 輸入年與月
+	2. 印出該年該月的月曆
+
+
+	字型： https://fonts.google.com/specimen/Inconsolata?selection.family=Inconsolata
+	修改 input-box 的style： http://stackoverflow.com/questions/7545302/how-to-change-the-size-of-the-input-text-box
+
+ -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Calendar
+	</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="calendar.css">
+	<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+</head>
+<body>
+	<div class="wrap">
+		<div id="input">
+			<span class="text-in-input">Enter Year</span>
+			<input type="text" name="year" class="input-box">
+			<span class="text-in-input">and Month</span>
+			<input type="text" name="month" class="input-box">
+			<input type="submit" value="Send" id="send-btn"></input>
+		</div>
+		<div id="calendar">
+			<div id="date-to-show"></div>
+			<div class="row">
+
+				<span class="week">Sun</span><span 
+				class="week">Mon</span><span 
+				class="week">Tue</span><span 
+				class="week">Wed</span><span 
+				class="week">Thu</span><span 
+				class="week">Fri</span><span 
+				class="week">Sat</span>
+			<!-- 這樣寫的寫法很玄, 如果有段行, 像是 
+				
+				<span class="week">Sun</span>
+				<span class="week">Mon</span>
+
+				就會出現莫名的空格, 不知道哪裡來的
+
+				按照目前的寫法, 就可以完全用 .week 的style去調整寬度
+				用 javascript 增加出來的 ChildNode 才會跟 星期 的字對齊
+			-->
+
+			</div>
+			<div class="row"></div>    
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<!-- 要留六行, 例如 2001年9月 會印到六行 -->
+			<!-- 這裡預留 div 會比較好處理, 但是如果寫成  
+				<div class="row">
+				
+				</div>
+				會跑出一個 text 的 ChileNodes, ChildNodes 有 8 個, 很怪, 先避免
+				不過 Children 還是 7 個 HTMLcollection 
+			 -->
+		</div>
+	</div>
+	<script src="calendar.js"></script>
+</body>
+</html>
+
+
+
+
+

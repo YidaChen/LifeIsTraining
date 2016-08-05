@@ -81,7 +81,6 @@
 // data structure
 
 var current = "";
-var previous = "";
 var display = [];
 var infixExpress = [];
 var postfixExpress = [];
@@ -120,7 +119,6 @@ for(var i = 0; i < rows.length; i++){
 		btns[j].addEventListener("click", function(event){
 			current = event.target.textContent;   // 把東西存到 current 裡面
 			ResponseToClick(current);
-			previous = current;                   // 記住這一次按到 btn, 避免重複按operator
 		});
 	}
 }
@@ -148,8 +146,7 @@ function ResponseToClick(current){
 				}
 			}
 		}
-		else if(current === "×" || current === "+" || current === "÷"){
-			// if(previous !== "=" && IsOperator(previous) ){   
+		else if(current === "×" || current === "+" || current === "÷"){  
 			if(IsOperator(display[display.length-1])){      // 這個條件式應該可以只保留第一項, 再檢查
 				// 如果前一個是 operator, 先把前一個丟掉, 更新成最新按的
 				// 但如果前一個是 = , 就不用清除
@@ -192,8 +189,7 @@ function ResponseToClick(current){
 		}
 	}
 	else if(current === "-"){
-		if(IsOperator(display[display.length-1]) && previous !== "=" 
-			&& previous !== "+/-"){   
+		if(IsOperator(display[display.length-1])){   
 		// 如果前一個是 operator, 先把前一個丟掉, 更新成最新按的
 			display.pop();
 		}
@@ -320,7 +316,7 @@ Stack.prototype.clear = function(){
 */
 
 var priorityOfOperators = {
-	"+/-": 1,
+	// "+/-": 1,
 	"×" : 2,
 	"÷" : 2,
 	"+": 3,
@@ -393,15 +389,19 @@ function EvaluatingPostfix(){
 		}
 		// console.log(stack.top());
 	}
-	// console.log("eveluating done.");
 
-	// display = [stack.top()];    // 把最後結果放進 display[], 而且是 string type 裡面
+	// 這裡針對 javascript 本身的運算怪異做處理
+	// test case: 9-2.001 會跑出 6.9990000000006 
+	// 把後面拿掉
+
+	// console.log("eveluating done.");
+	// 把最後結果按照 一個entry一個charactor 的規則放回 display[]
 	var result = String(stack.top());
 	display = [];
 	for(var i = 0; i < result.length; i++){
 		display.push(result[i]);
 	}
-	if(display[display.length-1] === "." ){
+	if(display[display.length-1] === "." ){      // 小處理, 如果最後一個是.結尾, 就把它丟掉
 		display.pop();
 	}
 }

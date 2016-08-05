@@ -19,70 +19,56 @@ bool isLeapYear(int year){
 		return false;
 	}
 }
-
+void CountDayforYear(int year, int &daycount){
+	if(isLeapYear(year)){
+		daycount += 366;
+	}
+	else{
+		daycount += 365;
+	}
+}
+void CountDayforMonth(int year, int month, int &daycount){
+	if((month==4) || (month==6) || (month==9) || (month==11)){
+    	daycount += 30;
+    }
+	else if(month==2){
+		if(isLeapYear(year)){
+			daycount += 29;
+		}
+		else{
+			daycount += 28;
+		}
+	}
+	else{
+		daycount += 31;
+	}
+}
 void dayFromYear(int year, int &daycount){
     // int day = 0;
     
     // method1: scan, reference: 2006
-    if(year > 2006){
+    if(year >= 2006){
 	    for(int i = 2006; i < year; i++){
-	    	if(isLeapYear(i)){
-	    		daycount += 366;
-	    	}
-	    	else{
-	    		daycount += 365;
-	    	}
+	    	CountDayforYear(i, daycount);
 	    }
 	}
 	else{
 		for(int i = 2005; i > year; i--){
-			if(isLeapYear(i)){
-				daycount += 366;
-			}
-			else{
-				daycount += 365;
-			}
+			CountDayforYear(i, daycount);
 		}
 	}
 }
-
 void dayFromMonth(int year, int month, int &daycount){
 
 	// method1: scan
-	if(year > 2006){
+	if(year >= 2006){
 	    for(int i = 1; i < month; i++){
-	        if((i==4) || (i==6) || (i==9) || (i==11)){
-	        	daycount += 30;
-	        }
-	    	else if(i==2){
-	    		if(isLeapYear(year)){
-	    			daycount += 29;
-	    		}
-	    		else{
-	    			daycount += 28;
-	    		}
-	    	}
-	    	else{
-	    		daycount += 31;
-	    	}
+		    CountDayforMonth(year, i, daycount);
 	    }
 	}
 	else{
 		for(int i = 12; i >= month; i--){
-			if((i==4) || (i==6) || (i==9) || (i==11)){
-	        	daycount += 30;
-	        }
-	    	else if(i==2){
-	    		if(isLeapYear(year)){
-	    			daycount += 29;
-	    		}
-	    		else{
-	    			daycount += 28;
-	    		}
-	    	}
-	    	else{
-	    		daycount += 31;
-	    	}
+			CountDayforMonth(year, i, daycount);
 		}
 	}
 }
@@ -95,7 +81,8 @@ int weekDayOfFirstDay(int year, int month){
 	int distance = 0;
     dayFromYear(year, distance);           // 和 2006 差幾年, 並考慮閏年, 計算差幾天
     dayFromMonth(year, month, distance);   // 和 1月 差幾個月, 要考慮閏月, 計算差幾天
-    if(year > 2006){
+
+    if(year >= 2006){
 		return (distance % 7);   // 回傳month月1號是星期幾
 	}
 	else{
@@ -105,18 +92,8 @@ int weekDayOfFirstDay(int year, int month){
 
 void printCalendar(int year, int month){
 	// 該月分要印幾個數
-	int dayLength = 31;
-	if ((month == 4)||(month == 6)||(month == 9)||(month == 11)){
-		dayLength = 30;
-	}
-	else if(month == 2){
-		if(isLeapYear(year)){
-			dayLength = 29;
-		}
-		else{
-			dayLength = 28;
-		}
-	}
+	int dayLength = 0;
+	CountDayforMonth(year,month,dayLength);
 
 	// dayDistance算出來的就是input的month的第一天的"星期"
 	// 0:sunday ~ 6:saturday

@@ -9,6 +9,7 @@ output/
 
 # C extensions
 *.so
+.cpp
 
 # Packages
 *.egg

@@ -1,0 +1,71 @@
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #f9f9f9;
+	font-size: 17px;
+	font-family: 'Inconsolata', monospace;
+}
+
+.wrap {
+	margin: 100px auto;
+	width: 360px;
+	// height: auto;
+	// border: 2px solid #757575;
+
+	text-align: center;
+}
+
+/*  input field  */
+
+#input {
+	padding: 12px 2px;
+	border-bottom: 2px solid #757575; 
+}
+.text-in-input {
+	padding: 0 1px;
+
+	// text-align: right;
+	// 如何讓 輸入在 input box 裡的字靠右？
+}
+.input-box {
+	width: 40px;
+	padding: 0 2px;
+}
+
+/*  calendar  */
+
+#calendar {
+	// background-color: #fdfdfd;
+	height: auto;
+	margin-top: 10px;
+	padding-left: 14px;
+	// border: 2px solid red;
+}
+
+#date-to-show {
+	padding: 6px;
+	font-size: 19px;
+}
+
+.row {
+	padding: 3px;
+}
+
+.week {
+	// display: inline-block;
+	float: left;         // 為什麼不能用 float ？
+
+	height: 20px;
+	width: 36px;
+	padding: 3px 5px;
+	// 為什麼 如果 width 在 height 前面, 以及 padding 在 height 前面, 就會失敗？
+	// text-align: center;
+
+}
+
+
