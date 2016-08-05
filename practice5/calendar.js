@@ -4,9 +4,6 @@
 
 	1. 最後一步, 看是要 全部刪除 還是用 replaceChild() 更新 row[] 的 ChildNodes[]
 
-	1.1 用 replaceChild, 而且要加上 default, 先取得 「使用者當下的時間」, 然後印一次Calendar
-	    之後就用replace
-
 	2. 突然變成 inline-block 不行, float 可以
 	   搞屁？ 研究一下問題出在哪？ 是不是不要用 text-align: center
 
@@ -15,18 +12,11 @@
 
 */
 
-
-
-
-
 /*  讀取 year 和 month 的 input  */
 
-// var year = "";
-// var month = "";
 
 // 把 event handler 加在 window element上面, 
 // 用 document.addEventListener() 沒有反應
-
 
 window.addEventListener("load", function(event){
 
@@ -68,7 +58,6 @@ function ResetCalendar(){
 			// console.log(rows[i].children.length);
 			// console.log(rows[i]);
 		}
-
 	}
 }
 
@@ -81,7 +70,6 @@ function PrintCalendar(year, month){
 
 	var firstDayofInputDate = FirstDayofInputDate(year, month);
 	howManyDayToPrint += firstDayofInputDate;
-	console.log(howManyDayToPrint);
 
 	var rows = document.querySelectorAll(".row");
 	var j = 1;     // idx for rows
@@ -97,7 +85,7 @@ function PrintCalendar(year, month){
 			date.textContent = String(i-firstDayofInputDate);
 		}
 		rows[j].appendChild(date);
-		// console.log(rows[j]);
+
 		if(i % 7 == 0){
 			j++;	
 		}
@@ -130,7 +118,6 @@ function IsLeapYear(year){
 	}
 }
 function NumOfDayFromYear(year, dayCount){
-    // int day = 0;
     
     // method1: scan, reference: 2006
     if(year >= 2006){
@@ -172,9 +159,10 @@ function NumOfDayFromMonth(year, month, dayCount){
 }
 
 function CountDayforMonth(year, month, howManyDayToPrint){
+	// method#1: if-else
 	// if((month==4) || (month==6) || (month==9) || (month==11)){
- //    	howManyDayToPrint += 30;
- //    }
+	// 	howManyDayToPrint += 30;
+	// }
 	// else if(month==2){
 	// 	if(IsLeapYear(year)){
 	// 		howManyDayToPrint += 29;
@@ -187,7 +175,7 @@ function CountDayforMonth(year, month, howManyDayToPrint){
 	// 	howManyDayToPrint += 31;
 	// }
 
-	// 利用一個 map 會比較簡潔
+	// method#2: 利用一個 map 會比較簡潔
 	var numOfDaysOfMonth = [0,31,28,31,30,31,30,31,31,30,31,30,31];
 
 	if(IsLeapYear(year) && month == 2){
