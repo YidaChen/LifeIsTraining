@@ -1,4 +1,4 @@
-cache
+#cache
 *.pid
 *.pyc
 .DS_Store

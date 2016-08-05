@@ -14,8 +14,6 @@ body {
 .wrap {
 	margin: 100px auto;
 	width: 360px;
-	// height: auto;
-	// border: 2px solid #757575;
 
 	text-align: center;
 }
@@ -44,7 +42,6 @@ body {
 	height: auto;
 	margin-top: 10px;
 	padding-left: 14px;
-	// border: 2px solid red;
 }
 
 #date-to-show {
@@ -57,14 +54,19 @@ body {
 }
 
 .week {
-	// display: inline-block;
-	float: left;         // 為什麼不能用 float ？
+	// display: inline-block;   
+	/*
+	  因為在 .wrap 有 text-align: center, 
+	  所以如果用 inline-block, 每個有用到的 .row 都要印滿 7 格, 不然無法對齊
+	*/
+	float: left;         
+
 
 	height: 20px;
 	width: 36px;
 	padding: 3px 5px;
+
 	// 為什麼 如果 width 在 height 前面, 以及 padding 在 height 前面, 就會失敗？
-	// text-align: center;
 
 }
 

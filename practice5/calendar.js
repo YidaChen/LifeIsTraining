@@ -60,13 +60,13 @@ send.addEventListener("click", function(event){
 });
 
 function ResetCalendar(){
-	console.log("ResetCalendar");
+
 	var rows = document.querySelectorAll(".row");
 	for(var i = 1; i < rows.length; i++){
 		while(rows[i].children.length != 0){
 			rows[i].removeChild(rows[i].children[0]);
-			console.log(rows[i].children.length);
-			console.log(rows[i]);
+			// console.log(rows[i].children.length);
+			// console.log(rows[i]);
 		}
 
 	}
@@ -81,6 +81,7 @@ function PrintCalendar(year, month){
 
 	var firstDayofInputDate = FirstDayofInputDate(year, month);
 	howManyDayToPrint += firstDayofInputDate;
+	console.log(howManyDayToPrint);
 
 	var rows = document.querySelectorAll(".row");
 	var j = 1;     // idx for rows
@@ -96,7 +97,7 @@ function PrintCalendar(year, month){
 			date.textContent = String(i-firstDayofInputDate);
 		}
 		rows[j].appendChild(date);
-		console.log(rows[j]);
+		// console.log(rows[j]);
 		if(i % 7 == 0){
 			j++;	
 		}
@@ -192,8 +193,9 @@ function CountDayforMonth(year, month, howManyDayToPrint){
 	if(IsLeapYear(year) && month == 2){
 		howManyDayToPrint += 29;
 	}
-	howManyDayToPrint += numOfDaysOfMonth[month];
-
+	else {
+		howManyDayToPrint += numOfDaysOfMonth[month];
+	}
 	return howManyDayToPrint;
 
 	// 這裡  howManyDayToPrint  傳不出去, 沒有辦法像 C++ 用 reference 傳進 function
