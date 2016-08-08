@@ -104,9 +104,9 @@ function HandleDragEnter(event){
 
 function HandleDragOver(event){
 	// 有些code有 if(), 再研究看看什麼情況需要 condition 
-	// if(event.preventDefault){
-		event.preventDefault();          // 如果要 drop, 這行很重要
-	// }
+	if(event.preventDefault){
+		event.preventDefault();               // 如果要 drop, 這行很重要, 不然會開啟圖片連結之類的
+	}
 	event.dataTransfer.dropEffect = "move";   //  move 還不知道在幹嘛
 
 	// 這個 return false 也要再研究一下
