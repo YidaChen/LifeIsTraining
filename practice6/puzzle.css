@@ -1,0 +1,194 @@
+
+
+/*
+    問題超多： 
+    1. dragover 會把東西擠開, 不管是 inline-block 或 float 都會
+    	 test: #puzzle width:498px
+
+    	 目前是用 inline-block 再把 #puzzle的width調大, 500px, 
+    	 所以 dragover 的時候不會太誇張
+    2. 使用 float 看看, 很精彩, 連在 #puzzle 設的外框都會受影響
+    	 有沒有可能是因為沒有 clear ?
+
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 20px auto;
+	width: 520px;
+
+	background-color: #345451;
+
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #f9f9f9;
+	text-align: center;
+}
+
+#puzzle {
+	margin: 20px auto;
+	padding-top: 4px;
+	border: 4px solid #368bd1;
+	width: 501px;
+}
+
+.finish {
+	position: relative;
+	z-index: 3;
+	opacity: 0.6;
+}
+
+.over {
+	border: 2px dashed #f4f4f4;
+}
+
+.block {
+	width: 120px;
+	height: 120px;
+}
+
+#plug00,#plug01,#plug02,#plug03,#plug10,#plug11,
+#plug12,#plug13,#plug20,#plug21,#plug22,#plug23 {
+	display: inline-block;
+	// float: left;
+	/* 用 display: inline-block 的話, 每個 row 之間會有莫名大的縫隙 */
+}
+
+#img00,#img01,#img02,#img03,#img10,#img11,
+#img12,#img13,#img20,#img21,#img22,#img23 {
+	display: inline-block;
+	-moz-background-clip: content-box;    
+	background-clip: content-box;
+	/* content-box 很重要, 才不會讓 padding 和 border 壓在背景圖片上 */
+	padding: 0 2px;
+}
+
+#plug00 {
+	// border-top: 4px solid #368bd1;
+	// border-left: 4px solid #368bd1;
+}
+
+#img00 {
+	/* 如果把 backgroundImage: url(); 放在 .css 檔案裡面, 
+	   那麼 element.style.backgroundImage就會變成 "", 什麼都沒有
+	   放在 .html 的 tag 裡面直接修飾就會有
+	*/
+	// background-image: url('img/dumpling_00.png');
+	background-size: contain;
+}
+
+#plug01 {
+	// border-top: 4px solid #368bd1;
+}
+
+#img01 {
+	// background-image: url("img/dumpling_01.png");
+	background-size: contain;
+}
+
+#plug02 {
+	// border-top: 4px solid #368bd1;
+}
+
+#img02 {
+	// background-image: url("img/dumpling_02.png");
+	background-size: contain;
+}
+
+#plug03 {
+	// border-top: 4px solid #368bd1;
+	// border-right: 4px solid #368bd1;
+	padding-right: 1px;
+}
+
+#img03 {
+	// background-image: url("img/dumpling_03.png");
+	background-size: contain;
+	
+}
+
+#plug10 {
+	// border-left: 4px solid #368bd1;
+}
+
+#img10 {
+	// background-image: url("img/dumpling_10.png");
+	background-size: contain;
+}
+
+#plug11 {
+}
+
+#img11 {
+	// background-image: url("img/dumpling_11.png");
+	background-size: contain;
+}
+
+#plug12 {
+}
+
+#img12 {
+	// background-image: url("img/dumpling_12.png");
+	background-size: contain;
+}
+
+#plug13 {
+	// border-right: 4px solid #368bd1;
+	padding-right: 1px;
+}
+
+#img13 {
+	// background-image: url("img/dumpling_13.png");
+	background-size: contain;
+	
+}
+
+#plug20 {
+	// border-bottom: 4px solid #368bd1;
+	// border-left: 4px solid #368bd1;
+	padding-bottom: 1px;
+}
+
+#img20 {
+	// background-image: url("img/dumpling_20.png");
+	background-size: contain;
+	
+}
+
+#plug21 {
+	// border-bottom: 4px solid #368bd1;
+	padding-bottom: 1px;
+}
+
+#img21 {
+	// background-image: url("img/dumpling_21.png");
+	background-size: contain;
+	
+}
+
+#plug22 {
+	// border-bottom: 4px solid #368bd1;
+	padding-bottom: 1px;
+}
+
+#img22 {
+	// background-image: url("img/dumpling_22.png");
+	background-size: contain;
+	
+}
+
+#plug23 {
+	// border-bottom: 4px solid #368bd1;
+	// border-right: 4px solid #368bd1;
+	padding-right: 1px;
+	padding-bottom: 1px;
+}
+
+#img23 {
+	// background-image: url("img/dumpling_23.png");
+	background-size: contain;
+	
+}
