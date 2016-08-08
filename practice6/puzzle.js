@@ -169,7 +169,7 @@ function IsFinished(){
 window.setTimeout(function(){
 	// 洗牌
 	ReDistribute();
-},2000);
+},3000);
 
 // 用random swap 做permutation
 
