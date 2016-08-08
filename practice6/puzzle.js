@@ -18,9 +18,10 @@ Array.prototype.forEach.call(blocks, function(block){
 
 function HandleDrop(event){
 	// 這裡的 event 是將要被取代的 element
-	if (event.stopPropagation) {
+	// if (event.stopPropagation) {
+		event.preventDefault();
     	event.stopPropagation(); // Stops some browsers from redirecting.
-	}
+	// }
 	if(dragSrcElement != this){
 		// var strImage = "'"+this.style.backgroundImage+"'";
 		dragSrcElement.style.backgroundImage = this.style.backgroundImage;  
@@ -35,8 +36,9 @@ function HandleDrop(event){
 		// 用 innerHTML 不好, 把 DnD 後的 DOM 打開, 調整後的element裡面會有怪東西, <meta>之類的
 		// 想辦法替換掉
 	}
-	var id = event.target.id;   // id: img00, img01, img02,...,img23
-	console.log(id);
+
+	// var id = event.target.id;   // id: img00, img01, img02,...,img23
+	// console.log(id);
 	// 檢查 觸發dragstart的element
 	IsMatched(dragSrcElement.id, dragSrcElement.style.backgroundImage);
 	// 檢查 被移動的element
@@ -104,9 +106,9 @@ function HandleDragEnter(event){
 
 function HandleDragOver(event){
 	// 有些code有 if(), 再研究看看什麼情況需要 condition 
-	if(event.preventDefault){
+	// if(event.preventDefault){
 		event.preventDefault();               // 如果要 drop, 這行很重要, 不然會開啟圖片連結之類的
-	}
+	// }
 	event.dataTransfer.dropEffect = "move";   //  move 還不知道在幹嘛
 
 	// 這個 return false 也要再研究一下
