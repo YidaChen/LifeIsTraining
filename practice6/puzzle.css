@@ -31,7 +31,25 @@
 	}
 	/* 一定要有 100%, 不然會有 「斷層」 */
 }
+@-webkit-keyframes backgroundColor{
 
+	0% {
+		background-color: #345451;
+	}
+	20% {
+		background-color: #469a84;
+	}
+	45% {
+		background-color: #469496;
+	}
+	75% {
+		background-color: #6E7B8B;
+	}
+	100% {
+		background-color: #345451;
+	}
+	/* 一定要有 100%, 不然會有 「斷層」 */
+}
 ////////////////////
 
 * {
@@ -41,6 +59,7 @@
 
 html {
 	animation: backgroundColor 30s infinite;
+	-webkit-animation: backgroundColor 30s infinite;
 }
 
 body {
