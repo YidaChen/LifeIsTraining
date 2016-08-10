@@ -23,8 +23,12 @@ window.addEventListener("load", function(event){
 	var dt = new Date();
 	// dt.getFullYear() : 2016
 	// dt.getMonth(): 0->Jan, 1->Feb
+	var inputBox = document.querySelectorAll(".input-box");
+	inputBox[0].placeholder = dt.getFullYear();
+	inputBox[1].placeholder = dt.getMonth()+1;
+
 	ShowMonthandYear(dt.getFullYear(), (dt.getMonth()+1));
-	PrintCalendar(dt.getFullYear(),(dt.getMonth()+1));
+	PrintCalendar(dt.getFullYear(), (dt.getMonth()+1));
 });
 
 function ShowMonthandYear(year, month){
@@ -42,7 +46,11 @@ send.addEventListener("click", function(event){
 	var year = document.querySelectorAll("input")[0].value;
 	var month = document.querySelectorAll("input")[1].value;
 
-	if(1 <= Number(month) && Number(month) <= 12){
+	// input should be typeof number
+	// isNaN(Number("dsfdsf")) -> true
+	// isNaN(Number(3)) -> false
+	if(!isNaN(Number(year)) && !isNaN(Number(year)) 
+		&& (1 <= Number(month)) && (Number(month) <= 12)){
 		ResetCalendar();
 		ShowMonthandYear(year, month);
 		PrintCalendar(year, month);
@@ -95,7 +103,6 @@ function PrintCalendar(year, month){
 
 /*  計算月曆  */
 
-// 看要不要做防呆, year 跟 month 要是數字, month 在 1~12 之間 , 可以不用
 function FirstDayofInputDate(year, month){
 
 	var distance = 0;
@@ -191,5 +198,6 @@ function CountDayforMonth(year, month, howManyDayToPrint){
 	// ref: http://stackoverflow.com/questions/7744611/pass-variables-by-reference-in-javascript
 	// 解決辦法二：用return
 }
+
 
 
