@@ -6,7 +6,7 @@
 }
 
 body {
-	background-color: #f9f9f9;
+	background-color: #f4f4f4;
 	font-size: 20px;
 }
 
@@ -20,7 +20,14 @@ body {
 .row-display {
 	padding: 20px 0 20px 20px;
 	height: 60px;
-	background-color: #8cc3f4;
+	background-color: #87ceeb;
+
+	/* border-radius: 左上 右上 右下 左下*/
+	border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+
+	box-shadow: 3px 3px 5px #939393;
 }
 
 #display {
@@ -38,13 +45,21 @@ body {
 
 	overflow: hidden;      /* 把超過的數字忽略 */
 	word-break: break-all; /* 避免數字從中間被砍掉 */
+
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+
+	box-shadow: 3px 3px 5px #939393;
 }
 
 .row {
 	padding: 0 0 20px 20px;
 	height: 50px;
-	background-color: #8cc3f4;
+	background-color: #87ceeb;
 	/*border: 2px solid black;*/
+
+	box-shadow: 3px 3px 5px #939393;
 }
 
 .row span {
@@ -56,9 +71,15 @@ body {
 	height: 20px;
 
 	text-align: center;
-	background: #f4f4f4;
+	background: #fafafa;
 
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+
+	box-shadow: 3px 3px 5px #939393;
 }
+
 /* 為什麼不能在 .operator 裡面加入背景顏色修飾？ 
    可以, 但是selector不能是  " .row span .operator "  
    中間加了一個 span 就出問題
@@ -66,7 +87,19 @@ body {
 
 */
 .row .operator {
-	background: #f0909b;  
+	background: #f375ae;  
+}
+
+.row span:hover {
+	background-color: #d6347e;
+}
+
+
+
+#last-row {
+	border-radius: 0 0 5px 5px ;
+	-webkit-border-radius: 0 0 5px 5px ;
+	-moz-border-radius: 0 0 5px 5px ;
 }
 
 
