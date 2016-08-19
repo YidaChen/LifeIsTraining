@@ -1,22 +1,12 @@
 
 /*
-	有些函式可以建成 TodoList 的 prototype.function(), 有些不適合
 
-	目前簡單的區分是：
-	-TodoList本身
-	-DOM相關
+	2016/8/18
+	剩下的bug:
+	1. 螢幕縮小時, float element 會大亂, 導致所有版面大亂
+	2. 輸入的字數超過 div 預設的 width 時, 要如何調整 #todoItem 的parent <li> 的 height?
 
 */
-
-var title = document.querySelector('h2');
-title.addEventListener('click', function(event){
-	if(event.target.textContent == 'Todos'){
-		event.target.textContent = 'or NotTodos';
-	}
-	else{
-		event.target.textContent = 'Todos';
-	}
-});
 
 /////////////////////////////////////////////
 //
@@ -243,8 +233,9 @@ function addTodoInDOM(newTodo){
 	var todoText = document.createElement('div');
 	todoText.className = 'todoItem';
 	todoText.textContent = newTodo.todoText;
-	if(newTodo.completed === true){				// 這個是把 completed 的項目加上橫線槓掉
-		todoText.style.textDecoration = 'line-through';	// 與 toggleChechbox 同步
+	// 下面的 if() 是把 completed 的項目加上橫線槓掉, 與 toggleChechbox 的圖示同步
+	if(newTodo.completed === true){				
+		todoText.style.textDecoration = 'line-through';
 	}
 	todoText.addEventListener('dblclick', function(event){
 		var index = indexOfCurrentTodo(event.target);
@@ -357,7 +348,6 @@ function editTodoByDoubleClick(element, index){
 
 
 
-
 /* 
 	如何從 deleteButton, toggleCompleted 取得 目前是在第幾個 <li> element
      -> 試試看 用 <li> 中的 todoText 和 todoList.todoList[]比較, 找出 index
@@ -411,7 +401,8 @@ function clearActiveClass(){
 
 
 
-// 在 event: load 觸發時, 要判斷localStorage裡面有沒有東西, 如果沒有, 建新的, 如果有, 用舊的
+// 在 event: load 觸發時, 要判斷localStorage裡面有沒有東西, 
+// 如果沒有, 建新的, 如果有, 用舊的
 
 var todoList;     // 把 object: todoList 設成 global variable, 會比較簡單
 
@@ -446,7 +437,17 @@ function loadFromStorage(){
 	todoList = new TodoList(todoObject.todoList);
 }
 
+///////////  surprise
 
+var title = document.querySelector('h2');
+title.addEventListener('click', function(event){
+	if(event.target.textContent == 'Todos'){
+		event.target.textContent = 'or NotTodos';
+	}
+	else{
+		event.target.textContent = 'Todos';
+	}
+});
 
 
 
