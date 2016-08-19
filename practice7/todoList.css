@@ -25,7 +25,11 @@
 
 html {
 	height: 100%;
-	background: radial-gradient(#fafaff 40%, #3c5896 75%, #1e2c4b 90%);
+	background-color: #fafaff;
+	background: -webkit-radial-gradient(#fafaff 20%, #eaeaff 35%, #3c5896 75%, #1e2c4b 90%);
+	background: -moz-radial-gradient(#fafaff 20%, #eaeaff 35%, #3c5896 75%, #1e2c4b 90%);
+	background: -o-radial-gradient(#fafaff 20%, #eaeaff 35%, #3c5896 75%, #1e2c4b 90%);
+	background: radial-gradient(#fafaff 20%, #eaeaff 35%, #3c5896 75%, #1e2c4b 90%);
 }
 
 body {
