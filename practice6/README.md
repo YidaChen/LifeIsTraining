@@ -1,0 +1,1 @@
+[puzzel](https://alrightchiu.github.io/LifeIsTraining/practice6/puzzle.html)
