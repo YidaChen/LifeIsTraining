@@ -142,17 +142,14 @@ li {
 .todoItem {
 	// display: inline-block;
 	float: left;
-	/* 從 width 改成 max-width 很重要, 這樣就可以縮小todoItem的widht, 
-	   讓float的deleteBtn可以留在 li 這個 element裡面 
+	/* 
+		從 width 改成 max-width 很重要, 這樣就可以縮小todoItem的widht, 
+		讓float的deleteBtn可以留在 li 這個 element裡面 
 	*/
 	max-width: 430px;
-	
-	padding-left: 16px;
-
-	line-height: 50px;
-
-	// display: table-cell;
-	// text-align: middle;
+	padding: 10px 0 10px 16px;
+	line-height: 30px;
+	word-break: break-all;	// 讓 超過一行 .todoItem 的數字能夠自動換行
 }
 
 .editInput {
@@ -171,7 +168,7 @@ li {
 	font-weight: 200;
 }
 
-.deleteBtn,#clearCompleted {
+.deleteBtn{
 	float: right;
 	width: 30px;
 	height: 30px;
@@ -186,6 +183,16 @@ li {
 }
 
 #clearCompleted {
+	float: right;
+	width: 30px;
+	height: 30px;
+	line-height: 32px;
+	border: 2px solid #7d134e;
+	margin: 8px 2px 8px 0;
+	border-radius: 17px;
+	-webkit-border-radius: 17px;
+	font-size: 32px;
+	text-align: center;
 	color: #9d1862;
 	display: none;
 }
