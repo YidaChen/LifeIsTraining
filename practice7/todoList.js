@@ -282,9 +282,13 @@ function addTodoInDOM(newTodo){
 
 function clearDisplayTodo(){
 	var unOrderList = document.querySelector('ul');
-	while(unOrderList.children.length != 0){
-		unOrderList.removeChild(unOrderList.children[0]);
-	}
+	// 直接清空 .innerHTML 即可
+	unOrderList.innerHTML = '';
+
+	// 下面的while loop方法比較慢
+	// while(unOrderList.children.length != 0){
+	// 	unOrderList.removeChild(unOrderList.children[0]);
+	// }
 }
 
 function adjustHeightOfLiandMarginOfCheckbox(toggleCheckbox, todoText, deleteButton, newTodoItemLi){
