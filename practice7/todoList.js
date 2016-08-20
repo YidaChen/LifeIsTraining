@@ -25,7 +25,7 @@ function TodoList(array){
 }
 
 /*
-    display 很麻煩, 因為有三種情況: All, Active, Completed
+    display 小麻煩, 有三種情況: All, Active, Completed
     要怎麼分別產生不同的矩陣？
       1. todoMVC 是可以切換出不同的 url     
           .../#
@@ -35,7 +35,7 @@ function TodoList(array){
       3. 第三種辦法是每次都跑一個 for loop, 然後產生一個暫時的 array 做display
            -> 這種辦法會一直 removeChild/appendChild, 不知道會不會很慢
 
-      1 的方法留待日後學, 現在先用 2 或 3 嘗試, 總有辦法
+      1 的方法再研究, 現在先用 3 
 */
 TodoList.prototype.displayTodo = function(){
 
@@ -43,7 +43,7 @@ TodoList.prototype.displayTodo = function(){
 	saveToStorage();
 	// 先把 display區塊的DOM淨空	
 	clearDisplayTodo(); 
-	// 全部處理都有可能更改 todoItem.completed, 所以要確認 toggleAllButton 
+	// 所有操作都有可能更改 todoItem.completed, 所以要確認 toggleAllButton 
 	checkToggleAllandClearCompletedButton();
 	// 修改還有幾個項目沒做完
 	countItemsLeft();
@@ -64,8 +64,6 @@ TodoList.prototype.displayTodo = function(){
 };
 
 TodoList.prototype.addTodo = function(todoText){
-	// this.todoList.push({text:textTodo, completed: false});
-	// debugger;
 	this.todoList.push(new TodoItem(todoText));
 	this.displayTodo();
 };
@@ -79,7 +77,7 @@ TodoList.prototype.clearCompletedTodo = function(){
 	var i = 0;
 	while(i < todoList.todoList.length){
 		// 如果有刪除, 就不增加index, 因為array本身會被改變
-		// [1,2,3,4] -> 刪除array[0]=1 -> [2,3,4], 就把index留在0, 接著檢查 2
+		// [1,2,3,4] -> 刪除array[0]=1 -> [2,3,4], 就把index留在0, 繼續檢查array[0]
 		if(this.todoList[i].completed == true){
 			this.deleteTodo(i);
 		}
@@ -102,7 +100,6 @@ TodoList.prototype.toggleCompleted = function(index){
 
 TodoList.prototype.toggleAll = function(){
 	var length = this.todoList.length;
-	// debugger;
 	if(isAllToggleTrue()){    // 如果全部都是true, 全部設成false
 		for(var i = 0; i < length; i++){
 			this.todoList[i].completed = false;
@@ -116,7 +113,7 @@ TodoList.prototype.toggleAll = function(){
 	this.displayTodo();
 };
 
-////////   TodoList 的 prototype 建立完畢   //////////
+////////   TodoList 的 prototype 建完   //////////
 
 
 
@@ -148,7 +145,7 @@ toggleAllButton.addEventListener('click', function(event){
 clearCompletedButton.addEventListener('click', function(event){
 	todoList.clearCompletedTodo();
 });
-
+console.log(itemLeft);
 function countItemsLeft(){
 	var itemLeft = document.querySelector('#itemLeft');
 
@@ -223,7 +220,7 @@ function addTodoInDOM(newTodo){
 	newTodoItemLi.addEventListener("dragend", HandleDragEnd, false);
 
 
-	// children#1: checkbox for toggleCompleted
+	// li.children[0]: checkbox for toggleCompleted
 	var toggleCheckbox = document.createElement('div');
 	toggleCheckbox.className = 'checkbox';
 	if(newTodo.completed === true){              // 這裡改變 div 的 textContent 成
@@ -239,7 +236,7 @@ function addTodoInDOM(newTodo){
 	});
 
 
-	// children#2: todoText, changeTodo
+	// li.children[1]: todoText, changeTodo
 	var todoText = document.createElement('div');
 	todoText.className = 'todoItem';
 	todoText.textContent = newTodo.todoText;
@@ -255,10 +252,10 @@ function addTodoInDOM(newTodo){
 	});
 
 
-	// children#3: delete button
+	// li.children[2]: delete button
 	var deleteButton = document.createElement('div');
 	deleteButton.className = 'deleteBtn';
-	deleteButton.textContent = '\u271E';					// cross
+	deleteButton.textContent = '\u271E';					// 圖示：cross
 
 	deleteButton.addEventListener('click', function(event){
 		var index = indexOfCurrentTodo(event.target);
@@ -284,14 +281,13 @@ function clearDisplayTodo(){
 
 /* 
 	如何從 deleteButton, toggleCompleted 取得 目前是在第幾個 <li> element
-     -> 試試看 用 <li> 中的 todoText 和 todoList.todoList[]比較, 找出 index
+     -> 用 <li> 中的 todoText 和 todoList.todoList[]比較, 找出 index
 */
 
-function indexOfCurrentTodo(element){   // element = li 的三個childNode
+function indexOfCurrentTodo(element){   // element = li 的三個children
 	// 找到 deleteBtn 所在的 li 的text, 拿去和 todoList的array比較, 找出該text的index
 	// element.parentNode 就是 li
-	var todoTextOfCurrentLi = element.parentNode.children[1].textContent; // .children[]才不會有textNode攪局
-	// debugger;
+	var todoTextOfCurrentLi = element.parentNode.children[1].textContent; // 要用.children[]才不會有textNode
 	for(var i = 0, length = todoList.todoList.length; i < length; i++){
 		if(todoTextOfCurrentLi === todoList.todoList[i].todoText){
 			return i;
@@ -386,7 +382,7 @@ var completedButton = document.querySelector('#Completed');
 
 allButton.addEventListener('click', function(event){
 	mode = 0;							// 更改 mode, 會在 displayTodo() 用到
-	clearActiveClass();					// 先清空 All, Active, Completed 的 class
+	clearActiveClass();					// 先清空 All, Active, Completed 的 class:active
 	allButton.classList.add('active');  // 再將class:active加入現在被點到的 allButton
 	todoList.displayTodo();				// 顯示 displayTodo()
 });
@@ -452,6 +448,7 @@ function loadFromStorage(){
 ///////////////////////////////////////////////
 //
 //        Drag and Drop
+//        event: dragstart->dragenter->dragover->dragleave->drop->dragend
 //
 ///////////////////////////////////////////////
 
@@ -514,7 +511,8 @@ function HandleDragEnd(event){
 }
 
 function HandleDragEnter(event){
-	/*	此時的 event 是「目前被hover的那個」
+	/*	
+		此時的 event 是「目前被hover的那個」
 		把某個element dragged住, 拖來拖去, 被hover的element都會被賦予 blue border
 	*/ 
 	this.classList.add("active");     // 在 .css 裡要先定義好 class: active 的 style
@@ -525,14 +523,15 @@ function HandleDragOver(event){
 	if(event.preventDefault){
 		event.preventDefault();               // 如果要 drop, 這行很重要, 不然會開啟圖片連結之類的
 	}
-	event.dataTransfer.dropEffect = "move";   //  move 還不知道在幹嘛
+	event.dataTransfer.dropEffect = "move";   //
 
 	// 這個 return false 也要再研究一下
 	return false;
 }
 
 function HandleDragLeave(event){
-	/*	dragleave 和 dragenter 是相對的, 
+	/*	
+		dragleave 和 dragenter 是相對的, 
 		如果有某個 style/effect 在 dragenter 加上
 		就在 dragleave 移除
 	*/
@@ -553,9 +552,3 @@ title.addEventListener('click', function(event){
 });
 
 
-
-/* 最後改style時再用下面這三個debug */
-
-// addNewTodoInDOM('發現，已經失去最重要，的東西。恍然大悟早已遠去，為何總是在犯錯之後才肯相信，錯的是自己。');
-// addNewTodoInDOM('他們說這就是人生，試著體會。');
-// addNewTodoInDOM('試著忍住眼淚，還是躲不開應該有的情緒。');
