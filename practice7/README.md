@@ -1,1 +1,1 @@
-[todoList](https://alrightchiu.github.io/LifeIsTraining/practice7/todoList.html)
+[TodoList](https://alrightchiu.github.io/LifeIsTraining/practice7/todoList.html)

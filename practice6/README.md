@@ -1,1 +1,1 @@
-[puzzel](https://alrightchiu.github.io/LifeIsTraining/practice6/puzzle.html)
+[Puzzel](https://alrightchiu.github.io/LifeIsTraining/practice6/puzzle.html)

@@ -1,1 +1,1 @@
-[calculator](https://alrightchiu.github.io/LifeIsTraining/practice4/calculator.html)
+[Calculator](https://alrightchiu.github.io/LifeIsTraining/practice4/calculator.html)
