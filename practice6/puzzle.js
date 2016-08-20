@@ -25,7 +25,7 @@ function HandleDrop(event){
 	if(dragSrcElement != this){
 		// var strImage = "'"+this.style.backgroundImage+"'";
 		dragSrcElement.style.backgroundImage = this.style.backgroundImage;  
-		// 上面這一行改 觸發dragstart 的 eleemnt 的背景
+		// 上面這一行改 觸發dragstart 的 element 的背景
 		this.style.backgroundImage = event.dataTransfer.getData("text/plain");
 		// 上面這一行改 要被換掉的 element 的背景
 		/*
@@ -60,6 +60,38 @@ function HandleDrop(event){
 
 	return false;
 }
+
+///////////////  判斷是否已經完成  ////////////////
+
+var matched = [[false, false, false, false], 
+			   [false, false, false, false], 
+			   [false, false, false, false]];
+
+function IsMatched(imgID, imgURL){
+	// imgID 是 img00, img01,... , img23
+	// imgURL 是 url("img/dumpling_00.png"), url("img/dumpling_01.png"),...
+	var id = imgID.slice(3,5);        // id: 00, 01, 02,..., 23
+	if(imgURL.indexOf(id) != -1){
+		matched[id[0]][id[1]] = true;
+	}
+	else{
+		matched[id[0]][id[1]] = false;
+	}
+	console.log(matched);
+}
+
+function IsFinished(){
+	for(var i = 0; i < 3; i++){
+		for(var j = 0; j < 4; j++){
+			if(matched[i][j] == false){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+////////
 
 function HandleDragStart(event){
 	// 這裡的 event.target == this 也就是一開始觸發 dragstart 的element
@@ -126,38 +158,6 @@ function HandleDragLeave(event){
 
 
 
-///////////////  判斷是否正確  ////////////////
-
-var matched = [[false, false, false, false], 
-			   [false, false, false, false], 
-			   [false, false, false, false]];
-
-function IsMatched(imgID, imgURL){
-	// imgID 是 img00, img01,... , img23
-	// imgURL 是 url("img/dumpling_00.png"), url("img/dumpling_01.png"),...
-	var id = imgID.slice(3,5);        // id: 00, 01, 02,..., 23
-	if(imgURL.indexOf(id) != -1){
-		matched[id[0]][id[1]] = true;
-	}
-	else{
-		matched[id[0]][id[1]] = false;
-	}
-	console.log(matched);
-}
-
-function IsFinished(){
-
-	for(var i = 0; i < 3; i++){
-		for(var j = 0; j < 4; j++){
-			if(matched[i][j] == false){
-				// console.log("not finished");
-				return false;
-			}
-		}
-	}
-	// console.log("finished");
-	return true;
-}
 
 
 ///////////////  Random 打散 backgroundImage   ////////////// 

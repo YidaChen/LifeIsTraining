@@ -15,9 +15,9 @@
 /////////////////////////////////////////////
 
 // 每一個 array 的 entry 儲存的 element, 類似linked list的node
-function TodoItem(todoText){    
+function TodoItem(todoText, boolean){    
 	this.todoText = todoText;
-	this.completed = false;
+	this.completed = boolean || false;	// 如果 boolean 是 undefined, 就用預設為 false
 }
 
 function TodoList(array){
@@ -127,8 +127,7 @@ TodoList.prototype.toggleAll = function(){
 /////////////////////////////////////////////
 
 
-
-////////////   把Header上看到的 button, inputBar 都加上 event handler  ////////////////
+/////////   把Header navigation 上看到的 button, inputBar 都加上 event handler  ////
 
 var inputBar = document.querySelector('#inputBar');
 var toggleAllButton = document.querySelector('#toggleAll');
@@ -210,8 +209,19 @@ function checkToggleAllandClearCompletedButton(){
 */
 
 function addTodoInDOM(newTodo){
-	var newTodoItemLi = document.createElement('li');
 	var unOrderList = document.querySelector('ul');
+
+	// <li> element
+	var newTodoItemLi = document.createElement('li');
+	newTodoItemLi.setAttribute('draggable','true');
+	// 讓 li element 可以被 drag and drop 調換順序
+	newTodoItemLi.addEventListener("dragstart", HandleDragStart, false);
+	newTodoItemLi.addEventListener("dragenter", HandleDragEnter, false);
+	newTodoItemLi.addEventListener("dragover", HandleDragOver, false);
+	newTodoItemLi.addEventListener("dragleave", HandleDragLeave, false);
+	newTodoItemLi.addEventListener("drop", HandleDrop, false);
+	newTodoItemLi.addEventListener("dragend", HandleDragEnd, false);
+
 
 	// children#1: checkbox for toggleCompleted
 	var toggleCheckbox = document.createElement('div');
@@ -236,7 +246,9 @@ function addTodoInDOM(newTodo){
 	// 下面的 if() 是把 completed 的項目加上橫線槓掉, 與 toggleChechbox 的圖示同步
 	if(newTodo.completed === true){				
 		todoText.style.textDecoration = 'line-through';
+		todoText.style.opacity = '0.6';
 	}
+
 	todoText.addEventListener('dblclick', function(event){
 		var index = indexOfCurrentTodo(event.target);
 		var editTodoText = editTodoByDoubleClick(event.target, index);		
@@ -247,6 +259,7 @@ function addTodoInDOM(newTodo){
 	var deleteButton = document.createElement('div');
 	deleteButton.className = 'deleteBtn';
 	deleteButton.textContent = '\u271E';					// cross
+
 	deleteButton.addEventListener('click', function(event){
 		var index = indexOfCurrentTodo(event.target);
 		todoList.deleteTodo(index);
@@ -266,6 +279,23 @@ function clearDisplayTodo(){
 	var unOrderList = document.querySelector('ul');
 	while(unOrderList.children.length != 0){
 		unOrderList.removeChild(unOrderList.children[0]);
+	}
+}
+
+/* 
+	如何從 deleteButton, toggleCompleted 取得 目前是在第幾個 <li> element
+     -> 試試看 用 <li> 中的 todoText 和 todoList.todoList[]比較, 找出 index
+*/
+
+function indexOfCurrentTodo(element){   // element = li 的三個childNode
+	// 找到 deleteBtn 所在的 li 的text, 拿去和 todoList的array比較, 找出該text的index
+	// element.parentNode 就是 li
+	var todoTextOfCurrentLi = element.parentNode.children[1].textContent; // .children[]才不會有textNode攪局
+	// debugger;
+	for(var i = 0, length = todoList.todoList.length; i < length; i++){
+		if(todoTextOfCurrentLi === todoList.todoList[i].todoText){
+			return i;
+		}
 	}
 }
 
@@ -347,25 +377,6 @@ function editTodoByDoubleClick(element, index){
 }
 
 
-
-/* 
-	如何從 deleteButton, toggleCompleted 取得 目前是在第幾個 <li> element
-     -> 試試看 用 <li> 中的 todoText 和 todoList.todoList[]比較, 找出 index
-*/
-
-function indexOfCurrentTodo(element){   // element = li 的三個childNode
-	// 找到 deleteBtn 所在的 li 的text, 拿去和 todoList的array比較, 找出該text的index
-	// element.parentNode 就是 li
-	var todoTextOfCurrentLi = element.parentNode.children[1].textContent; // .children[]才不會有textNode攪局
-	// debugger;
-	for(var i = 0, length = todoList.todoList.length; i < length; i++){
-		if(todoTextOfCurrentLi === todoList.todoList[i].todoText){
-			return i;
-		}
-	}
-}
-
-
 //////    處理 display 的三個mode: All Active Completed     //////
 
 var mode = 0;    // 0: All, 1: Active, 2: Completed
@@ -436,6 +447,98 @@ function loadFromStorage(){
 	var todoObject = JSON.parse(localStorage.getItem('todoList'));
 	todoList = new TodoList(todoObject.todoList);
 }
+
+
+///////////////////////////////////////////////
+//
+//        Drag and Drop
+//
+///////////////////////////////////////////////
+
+var dragSrcElement = null;		//  global variable, 用來 swap todoText 
+
+function HandleDrop(event){
+	// 這裡的 event 是將要被取代的 element
+	if (event.stopPropagation) {
+		event.preventDefault();
+    	event.stopPropagation();		// Stops some browsers from redirecting
+	}
+	// debugger;
+	if(dragSrcElement != this){		// this = event.target 就是 要被更換的 li element
+		/*
+			// 改 觸發dragstart 的 li 裡面的 todoItem的 textContent 
+			dragSrcElement.children[1].textContent = this.children[1].textContent;  
+			// 改 被動的 li 裡面的 todoItem的 textContent
+			this.children[1].textContent = event.dataTransfer.getData("text/plain");
+		*/
+
+		// 用上面兩行code可以直接更改 DOM, 不過因為要修改 todoList.todoList[]
+		// 並存進 localStorage, 所以乾脆用 displayTodo() 來修改 DOM
+		var indexDrag = indexOfCurrentTodo(dragSrcElement.children[0]),
+			indexDrop = indexOfCurrentTodo(this.children[0]);
+		// swap todoItem	
+		var tempTodoItem = new TodoItem(todoList.todoList[indexDrag].todoText, 
+										todoList.todoList[indexDrag].completed);
+		todoList.todoList[indexDrag] = todoList.todoList[indexDrop];
+		todoList.todoList[indexDrop] = tempTodoItem;
+		todoList.displayTodo();
+	}
+	return false;
+}
+function HandleDragStart(event){
+	// 這裡的 event.target == this 是 li element
+	event.target.style.opacity = "0.5";
+	// debugger;
+	// 下面三行結合 HandleDrop() 的code 要做 "swap"
+	// temp = a; a = b; b = temp;
+	// temp 就是 dataTransfer object
+	// 這裡把 「觸發 dragstart」的element放進 global variable:dragSrcElement 裡面
+	// 到 HandleDrop() 裡面就可以直接呼叫
+	dragSrcElement = this;   
+
+	// .effectAllowed 和 被drop的element的行為有關, 有些是 link, drop 之後可能會開啟新分頁 之類的
+	// 所以要限制 effect
+	event.dataTransfer.effectAllowed = "move";
+
+	event.dataTransfer.setData("text/plain", event.target.children[1].textContent);
+}
+
+function HandleDragEnd(event){
+	// 在 dragstart 加上的 effect 可以在 dragend 移除
+	// 這裡的 event.target == this 也就是一開始觸發 dragstart 的element
+	this.style.opacity = "1";
+	var unOrderList = document.querySelector('ul');
+	[].forEach.call(unOrderList, function(liElement){
+		liElement.classList.remove("active");
+	});
+}
+
+function HandleDragEnter(event){
+	/*	此時的 event 是「目前被hover的那個」
+		把某個element dragged住, 拖來拖去, 被hover的element都會被賦予 blue border
+	*/ 
+	this.classList.add("active");     // 在 .css 裡要先定義好 class: active 的 style
+}
+
+function HandleDragOver(event){
+	// 有些code有 if(), 再研究看看什麼情況需要 condition 
+	if(event.preventDefault){
+		event.preventDefault();               // 如果要 drop, 這行很重要, 不然會開啟圖片連結之類的
+	}
+	event.dataTransfer.dropEffect = "move";   //  move 還不知道在幹嘛
+
+	// 這個 return false 也要再研究一下
+	return false;
+}
+
+function HandleDragLeave(event){
+	/*	dragleave 和 dragenter 是相對的, 
+		如果有某個 style/effect 在 dragenter 加上
+		就在 dragleave 移除
+	*/
+	this.classList.remove("active");
+}
+
 
 ///////////  surprise
 
