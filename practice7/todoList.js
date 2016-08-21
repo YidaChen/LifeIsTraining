@@ -4,7 +4,12 @@
 	2016/8/18
 	剩下的bug:
 	1. 螢幕縮小時, float element 會大亂, 導致所有版面大亂
+	    -> 解決： 把 body 的 max-width 改回 width, 這樣 delete button 就會被釘在 todoItem 的右邊
+	             不會因為 body 縮小, 可是body內的 element 都寫死, 而造成版面大亂
+	       缺點： 限制使用者一定要在 550px 以上操作
 	2. 輸入的字數超過 div 預設的 width 時, 要如何調整 #todoItem 的parent <li> 的 height?
+	    -> 利用 getBoundingClientRect() 取到 todoItem 的 height 後
+	    	再調整 li 的height 和 checkbox 及 deleteBtn 的 margin
 
 */
 
