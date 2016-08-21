@@ -30,16 +30,14 @@ html {
 	background: -webkit-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: -moz-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: -o-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
-	// background: linear-gradient(#1e2c4b, #3c5896, #eaeaff);
+	background: linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 }
 
 body {
 	margin: 0 auto;
-	min-width: 230px;
-	max-width: 550px;
-
-	// background-color: #f0f2f4;
-
+	// min-width: 230px;
+	// max-width: 550px;
+	width: 550px;
 	font-family: 'Kreon', 'Ubuntu Condensed', sans-serif;
 	font-size: 20px;
 	font-weight: 200;
@@ -74,8 +72,9 @@ header h2 {
 }
 
 #filterBar {
-	min-width: 230px;
-	max-width: 546px;
+	// min-width: 230px;
+	// max-width: 546px;
+	width: 546px;
 
 	background-color: #fff;
 	border: 2px solid #ccc;
@@ -146,7 +145,8 @@ li {
 		從 width 改成 max-width 很重要, 這樣就可以縮小todoItem的widht, 
 		讓float的deleteBtn可以留在 li 這個 element裡面 
 	*/
-	max-width: 430px;
+	// max-width: 430px;
+	width: 430px;
 	padding: 10px 0 10px 16px;
 	line-height: 30px;
 	word-break: break-all;	// 讓 超過一行 .todoItem 的數字能夠自動換行

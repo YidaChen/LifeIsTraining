@@ -271,7 +271,7 @@ function addTodoInDOM(newTodo){
 
 	/* 
 		如果輸入的字串多過一行 .todoItem(430px) 的寬度, 
-		需要重新調整 li element 的 height 和 checkbox 的 margin
+		需要重新調整 li element 的 height 和 checkbox 及 deleteBtn的 margin
 		重要：要在上面新增的 element 都加進 DOM 之後, 
 		     才可以透過getBoundingClientRect()取出 class:todoItem 的 height
 	*/
@@ -293,10 +293,10 @@ function clearDisplayTodo(){
 
 function adjustHeightOfLiandMarginOfCheckbox(toggleCheckbox, todoText, deleteButton, newTodoItemLi){
 	var rect = todoText.getBoundingClientRect();
-	console.log(String(rect.height)+'px');
 	newTodoItemLi.style.height = String(rect.height)+'px';
 	toggleCheckbox.style.margin = String(rect.height/2-25+8)+'px 8px'; 
-	deleteButton.style.marginTop = deleteButton.style.marginBottom = String(rect.height/2-25+8)+'px'; 
+	deleteButton.style.marginTop = deleteButton.style.marginBottom 
+								 = String(rect.height/2-25+8)+'px'; 
 }
 
 /* 
