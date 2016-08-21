@@ -2,7 +2,7 @@
 /*
 
 	2016/8/18
-	剩下的bug:
+	bug:
 	1. 螢幕縮小時, float element 會大亂, 導致所有版面大亂
 	    -> 解決： 把 body 的 max-width 改回 width, 這樣 delete button 就會被釘在 todoItem 的右邊
 	             不會因為 body 縮小, 可是body內的 element 都寫死, 而造成版面大亂
@@ -10,7 +10,11 @@
 	2. 輸入的字數超過 div 預設的 width 時, 要如何調整 #todoItem 的parent <li> 的 height?
 	    -> 利用 getBoundingClientRect() 取到 todoItem 的 height 後
 	    	再調整 li 的height 和 checkbox 及 deleteBtn 的 margin
-
+	2016/8/21
+	bug:
+	1. 如何在輸入時進行「換行」, 並且最後能顯示出如輸入時的換行樣式？
+	    -> 目前將 editArea 從 input 改成 textarea, 在輸入的時候可以換行
+	       但是進入 DOM 會變回原樣
 */
 
 /////////////////////////////////////////////
@@ -342,7 +346,10 @@ function editTodoByDoubleClick(element, index){
 	// 當 edit 的字串輸入完, 就存進 object:todoList 裡面
 	// 等到 displayTodo() 時會把 DOM 中display區塊全部清除, 所以這個input form也就清除了
 
-	var editArea = document.createElement('input');
+	// var editArea = document.createElement('input');
+	// 改成 textarea, 就可以使用 shift+enter 進行換行
+	// 但是實際上不會換行
+	var editArea = document.createElement('textarea');
 	// 設定 input 的 style
 	editArea.classList.add('editInput');			
 	// 把原先的 todoText 設為 input form 一開始的字串
@@ -377,7 +384,9 @@ function editTodoByDoubleClick(element, index){
 	}
 	editArea.addEventListener('blur', changeTodoOrDeleteTodo);
 	editArea.addEventListener('keydown', function(event){   
-		if ((event.keyCode == 13)) {	// keyCode:13 = Enter鍵
+		if ((event.keyCode == 13) && !event.shiftKey) {	
+			// keyCode:13 = Enter鍵
+			// 如果同時按下 shift+enter 進行換行, 單獨 enter 才是輸入
 			/*  
 				要先移除 event:blur 的handler, 再進行 todoList.changeTodo()
 				因為 .changeTodo() 裡面會有 .displayTodo(), 會要對DOM做動作
