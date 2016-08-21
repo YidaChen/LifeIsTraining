@@ -24,13 +24,21 @@
 }
 
 html {
-	height: 100%;
+	// height: 100%;
+
 	background-color: #eaeaff;
 	// background: radial-gradient(#fafaff 20%, #eaeaff 35%, #3c5896 75%, #1e2c4b 90%);
 	background: -webkit-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: -moz-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: -o-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: linear-gradient(#1e2c4b, #3c5896, #eaeaff);
+	
+	background-attachment: fixed;
+	/* 
+		上面這行可以讓 即使加了太多todo讓視窗出現捲軸, 背景會自動延展, 
+		否則 漸層背景會出現斷層, 或是 repeat 
+		也不需要 height: 100%
+	*/
 }
 
 body {
@@ -96,7 +104,7 @@ header h2 {
 }
 
 
-.checkbox {     // checkbox for select all
+.checkbox {
 	// display: inline-block;
 	float: left;
 	margin: 8px;
@@ -187,7 +195,8 @@ li {
 }
 
 footer {
-	margin-top: 30px;
+	margin: 30px 0;
+	/* footer 需要 margin-bottom, 否則有可能新增太多todos, 使 footer 緊貼視窗底部 */
 }
 
 footer div {
