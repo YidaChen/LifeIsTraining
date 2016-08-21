@@ -346,10 +346,10 @@ function editTodoByDoubleClick(element, index){
 	// 當 edit 的字串輸入完, 就存進 object:todoList 裡面
 	// 等到 displayTodo() 時會把 DOM 中display區塊全部清除, 所以這個input form也就清除了
 
-	// var editArea = document.createElement('input');
+	var editArea = document.createElement('input');
 	// 改成 textarea, 就可以使用 shift+enter 進行換行
 	// 但是實際上不會換行
-	var editArea = document.createElement('textarea');
+	// var editArea = document.createElement('textarea');
 	// 設定 input 的 style
 	editArea.classList.add('editInput');			
 	// 把原先的 todoText 設為 input form 一開始的字串
@@ -386,7 +386,7 @@ function editTodoByDoubleClick(element, index){
 	editArea.addEventListener('keydown', function(event){   
 		if ((event.keyCode == 13) && !event.shiftKey) {	
 			// keyCode:13 = Enter鍵
-			// 如果同時按下 shift+enter 進行換行, 單獨 enter 才是輸入
+			// 如果同時按下 shift+enter 進行換行(textarea時可以), 單獨 enter 才是輸入
 			/*  
 				要先移除 event:blur 的handler, 再進行 todoList.changeTodo()
 				因為 .changeTodo() 裡面會有 .displayTodo(), 會要對DOM做動作
