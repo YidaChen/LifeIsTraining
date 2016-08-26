@@ -1,0 +1,220 @@
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0 auto;
+	width: 606px;
+
+	font-size: 14px;
+	color: #23415f;
+	// font-family: 'Cuprum', 'Helvetica', sans-serif, serif;
+	font-family: 'Oswald', sans-serif;
+
+
+	text-align: center;
+}
+
+/*  title */
+
+
+#title, .inputTitle {
+	margin-top: 80px;
+	padding: 0 5px;
+	width: 596px;
+	height: 37px;
+	line-height: 37px;
+
+	font-size: 24px;
+	color: #0e2430;
+	text-align: center;
+
+	background-color: #f1f1fd;
+	overflow: hidden;
+	word-break: break-all;
+}
+#subtitle, .inputSubTitle {
+	padding: 0 5px; 
+	width: 596px;
+	height: 33px;
+	line-height: 33px;
+
+	font-size: 20px;
+	color: #f2f2fd;
+	text-align: center;
+	
+	background-color: #7ea7d2;
+	overflow: hidden;
+	word-break: break-all;
+}
+
+.inputTitle, .inputSubTitle {
+	// font-family: 'Cuprum', 'Helvetica', sans-serif, serif;
+	font-family: 'Oswald', sans-serif;
+
+	width: 592px;
+	border-radius: 5px;
+	border: 2px solid #3c415e;
+}
+
+
+/*  table  */
+
+.displayTable {
+	position: absolute;
+	display: table;
+	width: 602px;
+	border: 2px solid black;
+}
+
+.displayRow {
+	display: table-row;
+}
+
+.displayCol {
+	display: table-cell;
+	vertical-align: middle;
+	width: 78px;
+	line-height: 15px;
+	/* 每個font有自己的預設line-height */
+	padding: 2px 0;
+	border: 1px solid black;
+}
+
+.week {
+	height: 25px;
+	font-size: 17px;
+}
+
+.time {
+	width: 40px;
+	line-height: 14px;
+}
+
+.time span {
+	display: inline-block;
+	padding: 2px 0;
+}
+
+#down {
+	-webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+#up {
+	-webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+#up, #down {
+	color: #3b5998;
+}
+
+#up:hover, #down:hover {
+	color: #e5378d;
+}
+/*  input/div  */
+
+
+.imagRect {
+	/* absolute 可以覆蓋其他 element */
+	position: absolute;
+	border: 2px dashed #cc0051;
+	z-index: -5;
+}
+
+.inputDiv, .finalDiv {
+	position: absolute;
+	// border: 2px solid #1e1e28;
+	background-color: #293966;
+	padding: 3px;
+
+	font-family: 'Oswald', sans-serif;
+	color: #d9dfee;
+	font-size: 16px;
+	text-align: center;
+	opacity: 1;
+	z-index: 3;		/* 可以讓畫面上看起來沒有imagRect產生, 再做後處理不讓 hoverDiv產生即可 */
+
+	/* 下面可有可無, 讓最後的 div 內緣有一段白邊 */
+	-webkit-background-clip: content-box;
+	-o-background-clip: content-box;
+	background-clip: content-box;	
+}
+
+.finalDiv {
+	display: table;
+}
+
+.finalDivText {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+
+	overflow: hidden;
+	word-break: break-all;
+	// word-wrap: break-word;
+
+	font-size: 16px;
+	color: #d9dfee;
+}
+
+/*  console  */
+
+#console {
+	position: fixed;
+	top: 10px;
+
+	margin: 0 auto;
+	width: 610px;
+	height: 60px;
+	
+	background-color: #51517a;
+	border-radius: 5px;
+
+	color: #1e1e28;
+
+	opacity: 1;
+	z-index: 5;
+}
+
+.consolediv, .diffBrowser {
+	display: inline-block;
+	
+	margin: 12px 4px;
+	padding: 0 5px;
+	height: 30px;
+	line-height: 27px;		/* trial and error */
+	border: 3px solid #f5f5f5;
+	border-radius: 5px;
+	
+	background-color: #f5f5f5;
+	box-shadow: 3px 3px 5px #28283d;
+}
+
+.consolediv:hover {
+	background-color: #fad0e0;
+}
+
+.colorinput {
+	vertical-align: middle;
+	width: 50px;
+}
+
+
+#chrome, #firefox {
+	display: inline-block;
+	width: 42px;
+	height: 30px;
+}
+
+
