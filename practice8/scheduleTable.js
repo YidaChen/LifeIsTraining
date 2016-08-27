@@ -444,8 +444,9 @@ function displayTimeScale(timeScales, startTime, targetID){
 			timeScales[i+1].textContent = (startTime+1)%24;
 		}
 		else{
-			timeScales[i].textContent = (startTime-1)%24;
-			timeScales[i+1].textContent = (startTime++)%24;
+			timeScales[i].textContent = (startTime-1+24)%24;
+			timeScales[i+1].textContent = (startTime+24)%24;
+			startTime++;
 		}
 	}
 }
