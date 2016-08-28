@@ -451,7 +451,6 @@ function displayTimeScale(timeScales, startTime, targetID){
 	}
 }
 
-
 ///////////////////////////////////////////////////
 //
 //		所有關於 position 和 width/height
