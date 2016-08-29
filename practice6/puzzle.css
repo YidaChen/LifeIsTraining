@@ -15,7 +15,7 @@
 @keyframes backgroundColor{
 
 	0% {
-		background-color: #345451;
+		background-color: #6E7B8B;
 	}
 	20% {
 		background-color: #469a84;
@@ -24,17 +24,17 @@
 		background-color: #469496;
 	}
 	75% {
-		background-color: #6E7B8B;
+		background-color: #345451;
 	}
 	100% {
-		background-color: #345451;
+		background-color: #6E7B8B;
 	}
 	/* 一定要有 100%, 不然會有 「斷層」 */
 }
 @-webkit-keyframes backgroundColor{
 
 	0% {
-		background-color: #345451;
+		background-color: #6E7B8B;
 	}
 	20% {
 		background-color: #469a84;
@@ -43,10 +43,10 @@
 		background-color: #469496;
 	}
 	75% {
-		background-color: #6E7B8B;
+		background-color: #345451;
 	}
 	100% {
-		background-color: #345451;
+		background-color: #6E7B8B;
 	}
 	/* 一定要有 100%, 不然會有 「斷層」 */
 }

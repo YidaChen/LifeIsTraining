@@ -105,8 +105,8 @@ addEventListener('mouseup', function(event){
 		// 所以放padding就好, 這樣算出來才會精確
 		setRectLeftTop(inputDiv, cellTopLeft.element.offsetLeft, cellTopLeft.element.offsetTop);
 		setRectWidthHeight( inputDiv, 
-							(widthRangeOfCell[cellBottomRight.col]-widthRangeOfCell[cellTopLeft.col-1] -2*0 -2*3), 
-							(heightRangeOfCell[cellBottomRight.row]-heightRangeOfCell[cellTopLeft.row-1] -2*0 -2*3));
+							(widthRangeOfCell[cellBottomRight.col]-widthRangeOfCell[cellTopLeft.col-1] -2*0 -2*5), 
+							(heightRangeOfCell[cellBottomRight.row]-heightRangeOfCell[cellTopLeft.row-1] -2*0 -2*5));
 
 		inputDiv.addEventListener('focus', setElementOnFocus);
 		inputDiv.addEventListener('keydown', handleKeyDown);
@@ -674,8 +674,8 @@ function testIfResizingAllDiv(){
 			var cellBottomRight = table.children[entry.rowTo].children[entry.colTo];
 			entry.left = cellTopLeft.offsetLeft + 'px';
 			entry.top = cellTopLeft.offsetTop + 'px';
-			entry.width = (cellBottomRight.offsetLeft-cellTopLeft.offsetLeft+cellBottomRight.offsetWidth) - 2*3 + 'px';
-			entry.height = (cellBottomRight.offsetTop-cellTopLeft.offsetTop+cellBottomRight.offsetHeight) - 2*3 + 'px';
+			entry.width = (cellBottomRight.offsetLeft-cellTopLeft.offsetLeft+cellBottomRight.offsetWidth) - 2*5 + 'px';
+			entry.height = (cellBottomRight.offsetTop-cellTopLeft.offsetTop+cellBottomRight.offsetHeight) - 2*5 + 'px';
 
 			var item = createElementWithItem('div','finalDiv', entry);
 			item.children[0].addEventListener('click', clickToEditForDiv);
