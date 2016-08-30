@@ -27,8 +27,6 @@ body {
 .text-in-input {
 	padding: 0 1px;
 
-	// text-align: right;
-	// 如何讓 輸入在 input box 裡的字靠右？
 }
 .input-box {
 	width: 40px;
@@ -65,9 +63,6 @@ body {
 	height: 20px;
 	width: 36px;
 	padding: 3px 5px;
-
-	// 為什麼 如果 width 在 height 前面, 以及 padding 在 height 前面, 就會失敗？
-
 }
 
 
