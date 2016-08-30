@@ -1,22 +1,6 @@
 
-/*
-	剩下兩件事：
-
-	1. 最後一步, 看是要 全部刪除 還是用 replaceChild() 更新 row[] 的 ChildNodes[]
-
-	2. 突然變成 inline-block 不行, float 可以
-	   搞屁？ 研究一下問題出在哪？ 是不是不要用 text-align: center
-
-	   解決的辦法： 可以每次都印 35格, 再控制哪裡有數字出現, 或是研究 float
-
-
-*/
 
 /*  讀取 year 和 month 的 input  */
-
-
-// 把 event handler 加在 window element上面, 
-// 用 document.addEventListener() 沒有反應
 
 window.addEventListener("load", function(event){
 
@@ -46,9 +30,6 @@ send.addEventListener("click", function(event){
 	var year = document.querySelectorAll("input")[0].value;
 	var month = document.querySelectorAll("input")[1].value;
 
-	// input should be typeof number
-	// isNaN(Number("dsfdsf")) -> true
-	// isNaN(Number(3)) -> false
 	if(!isNaN(Number(year)) && !isNaN(Number(year)) 
 		&& (1 <= Number(month)) && (Number(month) <= 12)){
 		ResetCalendar();
@@ -63,8 +44,6 @@ function ResetCalendar(){
 	for(var i = 1; i < rows.length; i++){
 		while(rows[i].children.length != 0){
 			rows[i].removeChild(rows[i].children[0]);
-			// console.log(rows[i].children.length);
-			// console.log(rows[i]);
 		}
 	}
 }
@@ -126,7 +105,7 @@ function IsLeapYear(year){
 }
 function NumOfDayFromYear(year, dayCount){
     
-    // method1: scan, reference: 2006
+    // method: scan, reference: 2006
     if(year >= 2006){
 	    for(var i = 2006; i < year; i++){
 	    	dayCount = CountDayforYear(i, dayCount);
@@ -151,7 +130,7 @@ function CountDayforYear(year, dayCount){
 }
 function NumOfDayFromMonth(year, month, dayCount){
 
-	// method1: scan
+	// method: scan
 	if(year >= 2006){
 	    for(var i = 1; i < month; i++){
 		    dayCount = CountDayforMonth(year, i, dayCount);
@@ -182,7 +161,7 @@ function CountDayforMonth(year, month, howManyDayToPrint){
 	// 	howManyDayToPrint += 31;
 	// }
 
-	// method#2: 利用一個 map 會比較簡潔
+	// method#2: 利用一個 map 比較簡潔
 	var numOfDaysOfMonth = [0,31,28,31,30,31,30,31,31,30,31,30,31];
 
 	if(IsLeapYear(year) && month == 2){
