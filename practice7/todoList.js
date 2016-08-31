@@ -1,21 +1,4 @@
 
-/*
-
-	2016/8/18
-	bug:
-	1. 螢幕縮小時, float element 會大亂, 導致所有版面大亂
-	    -> 解決： 把 body 的 max-width 改回 width, 這樣 delete button 就會被釘在 todoItem 的右邊
-	             不會因為 body 縮小, 可是body內的 element 都寫死, 而造成版面大亂
-	       缺點： 限制使用者一定要在 550px 以上操作
-	2. 輸入的字數超過 div 預設的 width 時, 要如何調整 #todoItem 的parent <li> 的 height?
-	    -> 利用 getBoundingClientRect() 取到 todoItem 的 height 後
-	    	再調整 li 的height 和 checkbox 及 deleteBtn 的 margin
-	2016/8/21
-	bug:
-	1. 如何在輸入時進行「換行」, 並且最後能顯示出如輸入時的換行樣式？
-	    -> 目前將 editArea 從 input 改成 textarea, 在輸入的時候可以換行
-	       但是進入 DOM 會變回原樣
-*/
 
 /////////////////////////////////////////////
 //
@@ -34,18 +17,17 @@ function TodoList(array){
 }
 
 /*
-    display 小麻煩, 有三種情況: All, Active, Completed
-    要怎麼分別產生不同的矩陣？
+    display 產生三種情況(All, Active, Completed)的todos:
       1. todoMVC 是可以切換出不同的 url     
           .../#
           .../#/active
           .../#/completed
       2. 另一種辦法是內建三個 array, 每次delete, add, toggle 都要調整, 
-      3. 第三種辦法是每次都跑一個 for loop, 然後產生一個暫時的 array 做display
-           -> 這種辦法會一直 removeChild/appendChild, 不知道會不會很慢
-
-      1 的方法再研究, 現在先用 3 
+      3. 第三種辦法是每次都先清空DOM, 再跑一個for loop把element重新加上 
+           -> 這種辦法會一直 removeChild/appendChild
+	下面先用3
 */
+
 TodoList.prototype.displayTodo = function(){
 
 	// 每次display前都先存一次 localStorage
@@ -57,7 +39,7 @@ TodoList.prototype.displayTodo = function(){
 	// 修改還有幾個項目沒做完
 	countItemsLeft();
 
-	// 要有三種mode
+	// 三種mode
 	for(var i = 0; i < this.todoList.length; i++){
 		console.log(this.todoList[i]);
 		if(mode == 0){												// All
@@ -122,7 +104,7 @@ TodoList.prototype.toggleAll = function(){
 	this.displayTodo();
 };
 
-////////   TodoList 的 prototype 建完   //////////
+////////   TodoList 的 prototype    //////////
 
 
 
@@ -154,7 +136,7 @@ toggleAllButton.addEventListener('click', function(event){
 clearCompletedButton.addEventListener('click', function(event){
 	todoList.clearCompletedTodo();
 });
-console.log(itemLeft);
+
 function countItemsLeft(){
 	var itemLeft = document.querySelector('#itemLeft');
 
@@ -168,7 +150,7 @@ function countItemsLeft(){
 	itemLeft.textContent = count+' items left';
 }
 
-///////   下面三個是 toogleAll 和 clearCompleted 專用    /////////
+///////    toogleAll 和 clearCompleted    /////////
 
 function isAllToggleTrue(){
 	var count = 0,
@@ -181,7 +163,7 @@ function isAllToggleTrue(){
 	return (count === length);
 }
 
-function isOneToggleCompleted(){
+function isAnyToggleCompleted(){
 	var length = todoList.todoList.length;
 	for(var i = 0; i < length; i++){
 		if(todoList.todoList[i].completed === true){
@@ -199,7 +181,7 @@ function checkToggleAllandClearCompletedButton(){
 		toggleAllButton.textContent = '\u267B';	
 	}
 
-	if(isOneToggleCompleted()){
+	if(isAnyToggleCompleted()){
 		clearCompletedButton.style.display = 'block';
 	}
 	else{
@@ -214,31 +196,29 @@ function checkToggleAllandClearCompletedButton(){
 	這裡面就要安裝好 event handler  
 */
 
-function addTodoInDOM(newTodo){
-	var unOrderList = document.querySelector('ul');
+function createElementByClass(tagName, className){
+	var element = document.createElement(tagName);
+	element.className = className;
+	return element;
+}
 
+function addTodoInDOM(newTodo){
+	
 	// <li> element
-	var newTodoItemLi = document.createElement('li');
+	var newTodoItemLi = createElementByClass('li', 'clearfix-group');
+	// 讓 li element 可以被 drag and drop 調換順序, 並加上 drag and drop 的六個 event handler
 	newTodoItemLi.setAttribute('draggable','true');
-	// 讓 li element 可以被 drag and drop 調換順序
-	newTodoItemLi.addEventListener("dragstart", HandleDragStart, false);
-	newTodoItemLi.addEventListener("dragenter", HandleDragEnter, false);
-	newTodoItemLi.addEventListener("dragover", HandleDragOver, false);
-	newTodoItemLi.addEventListener("dragleave", HandleDragLeave, false);
-	newTodoItemLi.addEventListener("drop", HandleDrop, false);
-	newTodoItemLi.addEventListener("dragend", HandleDragEnd, false);
+	addEventHandlerOfDragAndDrop(newTodoItemLi);
 
 
 	// li.children[0]: checkbox for toggleCompleted
-	var toggleCheckbox = document.createElement('div');
-	toggleCheckbox.className = 'checkbox';
-	if(newTodo.completed === true){              // 這裡改變 div 的 textContent 成
-		toggleCheckbox.textContent = '\u267B';   // 資源回收的圖案：UNICODE: U+0267B
+	var toggleCheckbox = createElementByClass('div', 'checkbox');
+	if(newTodo.completed === true){              
+		toggleCheckbox.textContent = '\u267B';   // 圖示：資源回收
 	}
 	else{
 		toggleCheckbox.textContent = '';
 	}
-
 	toggleCheckbox.addEventListener('click', function(event){
 		var index = indexOfCurrentTodo(event.target);
 		todoList.toggleCompleted(index);
@@ -246,15 +226,13 @@ function addTodoInDOM(newTodo){
 
 
 	// li.children[1]: todoText, changeTodo
-	var todoText = document.createElement('div');
-	todoText.className = 'todoItem';
+	var todoText = createElementByClass('div', 'todoItem');
 	todoText.textContent = newTodo.todoText;
 	// 下面的 if() 是把 completed 的項目加上橫線槓掉, 與 toggleChechbox 的圖示同步
 	if(newTodo.completed === true){				
 		todoText.style.textDecoration = 'line-through';
 		todoText.style.opacity = '0.6';
 	}
-
 	todoText.addEventListener('dblclick', function(event){
 		var index = indexOfCurrentTodo(event.target);
 		var editTodoText = editTodoByDoubleClick(event.target, index);		
@@ -262,10 +240,8 @@ function addTodoInDOM(newTodo){
 
 
 	// li.children[2]: delete button
-	var deleteButton = document.createElement('div');
-	deleteButton.className = 'deleteBtn';
+	var deleteButton = createElementByClass('div', 'deleteBtn');
 	deleteButton.textContent = '\u271E';					// 圖示：cross
-
 	deleteButton.addEventListener('click', function(event){
 		var index = indexOfCurrentTodo(event.target);
 		todoList.deleteTodo(index);
@@ -276,6 +252,7 @@ function addTodoInDOM(newTodo){
 	newTodoItemLi.appendChild(todoText);
 	newTodoItemLi.appendChild(deleteButton);
 
+	var unOrderList = document.querySelector('ul');
 	unOrderList.appendChild(newTodoItemLi);
 
 	/* 
@@ -306,10 +283,12 @@ function adjustHeightOfLiandMarginOfCheckbox(toggleCheckbox, todoText, deleteBut
 	toggleCheckbox.style.margin = String(rect.height/2-25+8)+'px 8px'; 
 	deleteButton.style.marginTop = deleteButton.style.marginBottom 
 								 = String(rect.height/2-25+8)+'px'; 
+	// li.style.height是50px, 上下各 25px
+	// deleteButton 和 checkbox 的 margin-top & margin-bottom是 8px
 }
 
 /* 
-	如何從 deleteButton, toggleCompleted 取得 目前是在第幾個 <li> element
+	從 deleteButton, toggleCompleted 取得 目前是在第幾個 <li> element
      -> 用 <li> 中的 todoText 和 todoList.todoList[]比較, 找出 index
 */
 
@@ -322,12 +301,13 @@ function indexOfCurrentTodo(element){   // element = li 的三個children
 			return i;
 		}
 	}
+	return -1;
 }
 
 
 /////////////////////////////////////////////////////////////
 //
-//          重要：double click 之後產生一個 input form, 
+//          double click 之後產生一個 input form, 
 //          讓使用者輸入新的字串, 再變回原來的div
 //
 /////////////////////////////////////////////////////////////
@@ -346,21 +326,16 @@ function editTodoByDoubleClick(element, index){
 	// 當 edit 的字串輸入完, 就存進 object:todoList 裡面
 	// 等到 displayTodo() 時會把 DOM 中display區塊全部清除, 所以這個input form也就清除了
 
-	var editArea = document.createElement('input');
-	// 改成 textarea, 就可以使用 shift+enter 進行換行
-	// 但是實際上不會換行
-	// var editArea = document.createElement('textarea');
-	// 設定 input 的 style
-	editArea.classList.add('editInput');			
+	var editArea = createElementByClass('input', 'editInput');
 	// 把原先的 todoText 設為 input form 一開始的字串
 	editArea.value = todoList.todoList[index].todoText;
 	/* 
-		下面這個「幫editArea加上 property: index」 非常重要
-		不然沒有辦法在 callChangeTodo() 裡面得知 index 是什麼
-		要建立 callChangeTodo() 的原因是
+		下面「幫editArea加上 property: index」即可在將index放進object裡面, 帶進function()
+		否則無法在 callChangeTodo() 裡面得知 index 是什麼
+		需要建立 callChangeTodo() 的原因：
 		    要在 event: keydown 的handler 裡面把 event:blur 的handler移除
 		    否則會有 error (看下面的註解)
-		而 revomeEventListener(event, functionName) 的需要知道 function 的 name
+		而 revomeEventListener(event, functionName) 的需要知道 functionName
 		所以就建立 callChangeTodo()
 
 		Ref: http://stackoverflow.com/a/11986895/5391038
@@ -368,7 +343,7 @@ function editTodoByDoubleClick(element, index){
 	editArea.index = index;
 
 	/* 
-		下面對 editArea 建立兩個「輸入修改後的todoText」的event handler
+		對 editArea 建立兩個「輸入修改後的todoText」的event handler
 		目的是讓使用者以較為直覺的方式進行修改
 		不管是 滑鼠移開(focus狀態解除) 或是 按下Enter 都可以完成 edit
 	*/ 
@@ -441,6 +416,11 @@ function clearActiveClass(){
 }
 
 
+////////////////////////////////////
+//
+//			localStorage  
+//
+/////////////////////////////////////
 
 // 在 event: load 觸發時, 要判斷localStorage裡面有沒有東西, 
 // 如果沒有, 建新的, 如果有, 用舊的
@@ -457,22 +437,17 @@ window.addEventListener('load', function(event){
 	}
 	todoList.displayTodo();
 });
-
-
-////////////  做 localStorage  /////////////
-
 function saveToStorage(){
 	// 把整個 object 放進去, 不是只有放 array
 	// 所以在 loadFromStorage() 的時候要取array, 不能整個 object 拿去 new TodoList
+	// 這部分對照 Constructor 的 argument
 	localStorage.setItem('todoList', JSON.stringify(todoList)); 
-	// 幾乎每一個動作都會更改 todoList.todoList[], 
-	// 所以在 displayTodo() 裡面執行 saveToStorage()
+	// 有修改 todoList.todoList[], 就需要 saveToStorage()
 }
 function loadFromStorage(){
-	// 目前看起來, localStorage 沒有辦法連 object 的 method/ prototype 一起存
+	// localStorage 沒有辦法連 object 的 method/ prototype 一起存
 	// 所以每次 load 都要 先取出上次存入的 todoList(整個object)
-	// 再把 object 裡面的 array 取出來
-	// 然後以array作為arg, 創造新的todoList object, new TodoList( arg )
+	// 再把 object(這裡是取 object.array) 作為arg, 建立新的todoList object, new TodoList( arg )
 
 	var todoObject = JSON.parse(localStorage.getItem('todoList'));
 	todoList = new TodoList(todoObject.todoList);
@@ -487,6 +462,15 @@ function loadFromStorage(){
 ///////////////////////////////////////////////
 
 var dragSrcElement = null;		//  global variable, 用來 swap todoText 
+
+function addEventHandlerOfDragAndDrop(itemLi){
+	itemLi.addEventListener("dragstart", HandleDragStart, false);
+	itemLi.addEventListener("dragenter", HandleDragEnter, false);
+	itemLi.addEventListener("dragover", HandleDragOver, false);
+	itemLi.addEventListener("dragleave", HandleDragLeave, false);
+	itemLi.addEventListener("drop", HandleDrop, false);
+	itemLi.addEventListener("dragend", HandleDragEnd, false);
+}
 
 function HandleDrop(event){
 	// 這裡的 event 是將要被取代的 element
@@ -519,7 +503,7 @@ function HandleDrop(event){
 function HandleDragStart(event){
 	// 這裡的 event.target == this 是 li element
 	event.target.style.opacity = "0.5";
-	// debugger;
+	
 	// 下面三行結合 HandleDrop() 的code 要做 "swap"
 	// temp = a; a = b; b = temp;
 	// temp 就是 dataTransfer object
@@ -544,33 +528,31 @@ function HandleDragEnd(event){
 	});
 }
 
-function HandleDragEnter(event){
-	/*	
-		此時的 event 是「目前被hover的那個」
-		把某個element dragged住, 拖來拖去, 被hover的element都會被賦予 blue border
-	*/ 
+function HandleDragEnter(event){	
+	// 此時的 event 是目前「被hover」的那個
+	// 把某個element dragged住, 拖來拖去, 被hover的element都會被賦予 blue border 
 	this.classList.add("active");     // 在 .css 裡要先定義好 class: active 的 style
 }
 
 function HandleDragOver(event){
-	// 有些code有 if(), 再研究看看什麼情況需要 condition 
+	
 	if(event.preventDefault){
-		event.preventDefault();               // 如果要 drop, 這行很重要, 不然會開啟圖片連結之類的
+		event.preventDefault();               // 如果要 drop, 這行必要, 不然會開啟圖片連結之類的
 	}
 	event.dataTransfer.dropEffect = "move";   //
 
-	// 這個 return false 也要再研究一下
+	// 這個 return false 的目的？
 	return false;
 }
 
 function HandleDragLeave(event){
-	/*	
-		dragleave 和 dragenter 是相對的, 
-		如果有某個 style/effect 在 dragenter 加上
-		就在 dragleave 移除
-	*/
+	// dragleave 和 dragenter 是相對的, 
+	// 如果有某個 style/effect 在 dragenter 加上
+	// 就在 dragleave 移除
 	this.classList.remove("active");
 }
+
+
 
 
 ///////////  surprise

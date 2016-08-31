@@ -1,6 +1,4 @@
 
-
-
 /*   Clearfix group   */
 
 .clearfix-group:before,
@@ -27,7 +25,6 @@ html {
 	// height: 100%;
 
 	background-color: #eaeaff;
-	// background: radial-gradient(#fafaff 20%, #eaeaff 35%, #3c5896 75%, #1e2c4b 90%);
 	background: -webkit-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: -moz-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
 	background: -o-linear-gradient(#1e2c4b, #3c5896, #eaeaff);
@@ -43,8 +40,6 @@ html {
 
 body {
 	margin: 0 auto;
-	// min-width: 230px;
-	// max-width: 550px;
 	width: 550px;
 
 	font-family: 'Kreon', 'Ubuntu Condensed', sans-serif;
@@ -99,9 +94,7 @@ header h2 {
 	-webkit-border-radius: 5px;
 
 	height: 22px;
-	line-height: 22px;         
-	// 把 line-height 和 block的height 一起使用, 就可以文字垂直置中
-
+	line-height: 22px;
 }
 
 
